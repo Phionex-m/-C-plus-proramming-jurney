@@ -5,6 +5,11 @@ using namespace std ;
 
 int main (){
 
+
+    Rectangle r1(6 , 5);
+    cout <<"The area of rectangle : " << r1.getArea() << endl ;
+    cout <<"The area of rectangle : " << r1.getPeremiter() << endl ;
+
     Point p1 = { 0 , 0 };
     Point p2 = { 3 , 4 };
     cout <<"Distance between the points " << distance(p1,p2) << endl ;

@@ -44,5 +44,21 @@ class Circle {
 double distance(const  Point& p1 ,const  Point& p2);
 
 
+class Rectangle {
+
+    private:
+
+    double  wedth1 ;
+    double len ;
+
+    public :
+
+    Rectangle (double w , double l );
+    double getArea();
+    double getPeremiter();
+
+};
+
+
 
 #endif // IMPLEMENT_H
