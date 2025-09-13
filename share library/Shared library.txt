@@ -1,0 +1,6 @@
+g++ -DBUILDING_DLL -c math_utils.cpp -o math_utils.o
+
+g++ -shared -o libmath.dll math_utils.o -Wl,--out-implib,libmath.a
+
+
+g++ main.cpp -L. -lmath -o main.exe
