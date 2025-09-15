@@ -1,0 +1,3 @@
+C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build/CMakeFiles/azkar.dir
+C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build/CMakeFiles/edit_cache.dir
+C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build/CMakeFiles/rebuild_cache.dir

@@ -1,24 +1,22 @@
 #include <iostream>
 #include "zikr.h"
-
+#include <windows.h>
 
 
 using namespace std;
 
-int main(){
- ZikrManaging zikrManager ;
+int main() {
 
+    SetConsoleOutputCP(CP_UTF8);
+    ZikrManaging zikrManager;
 
+    if (!zikrManager.ImportZekrFromTxt()) {
+        cout << "No azkar loaded. Please check Azkar.txt" << endl;
+        return 1; // ❌ خروج من البرنامج
+    }
 
-cout << zikrManager. ImportZekrFromTxt() << endl ;
-
-zikrManager.displayAllGradually();
-
-zikrManager.reset();
-
-
- 
-
+    zikrManager.displayAllGradually();
+    zikrManager.reset();
 
     cin.get();
     return 0;
