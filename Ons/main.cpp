@@ -5,19 +5,28 @@
 
 using namespace std;
 
+
+void showMessage(const string& msg) {
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, msg.c_str(), -1, NULL, 0);
+    wstring wmsg(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, msg.c_str(), -1, &wmsg[0], size_needed);
+
+    MessageBoxW(NULL, wmsg.c_str(), L"اذكار", MB_OK | MB_ICONINFORMATION);
+}
 int main() {
 
-    SetConsoleOutputCP(CP_UTF8);
-    ZikrManaging zikrManager;
+   ZikrManaging zikrManager;
 
     if (!zikrManager.ImportZekrFromTxt()) {
-        cout << "No azkar loaded. Please check Azkar.txt" << endl;
-        return 1; // ❌ خروج من البرنامج
+        showMessage("تعذر تحميل ملف Azkar.txt");
+        return 1;
     }
 
-    zikrManager.displayAllGradually();
-    zikrManager.reset();
+    
+    for (const auto& z : zikrManager.getList()) {
+        showMessage(z.text);
+    }
 
-    cin.get();
+    zikrManager.reset();
     return 0;
 }

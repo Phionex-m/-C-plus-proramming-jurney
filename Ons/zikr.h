@@ -26,6 +26,7 @@ public:
     bool ImportZekrFromTxt();
     void displayAllGradually() const ; //Show the zikr in order
     void reset(); // for restart the loop 
+    const vector<Zekr>& getList() const { return list; }
     
 
 };
