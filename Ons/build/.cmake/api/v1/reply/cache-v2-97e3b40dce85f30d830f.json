@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build"
+			"value" : "d:/Workshop tasks/-C-plus-proramming-jurney/Ons/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -587,7 +587,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build/CMakeFiles/pkgRedirects"
+			"value" : "D:/Workshop tasks/-C-plus-proramming-jurney/Ons/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -659,7 +659,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons"
+			"value" : "D:/Workshop tasks/-C-plus-proramming-jurney/Ons"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1379,7 +1379,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build"
+			"value" : "D:/Workshop tasks/-C-plus-proramming-jurney/Ons/build"
 		},
 		{
 			"name" : "Ons_IS_TOP_LEVEL",
@@ -1403,7 +1403,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons"
+			"value" : "D:/Workshop tasks/-C-plus-proramming-jurney/Ons"
 		}
 	],
 	"kind" : "cache",

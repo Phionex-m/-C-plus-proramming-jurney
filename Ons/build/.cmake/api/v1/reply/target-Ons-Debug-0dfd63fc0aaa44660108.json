@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "azkar.exe"
+			"path" : "Ons.exe"
 		},
 		{
-			"path" : "azkar.pdb"
+			"path" : "Ons.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -57,7 +57,7 @@
 			]
 		}
 	],
-	"id" : "azkar::@6890427a1f51a3e7e1df",
+	"id" : "Ons::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -73,8 +73,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "azkar",
-	"nameOnDisk" : "azkar.exe",
+	"name" : "Ons",
+	"nameOnDisk" : "Ons.exe",
 	"paths" : 
 	{
 		"build" : ".",

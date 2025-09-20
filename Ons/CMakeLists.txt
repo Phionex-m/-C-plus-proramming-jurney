@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
-add_executable(azkar main.cpp zikr.cpp)
+add_executable(Ons main.cpp zikr.cpp)

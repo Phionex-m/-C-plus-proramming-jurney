@@ -12,7 +12,7 @@ using namespace std;
 // Group of variables 
 struct Zekr {
     string text;
-    // int count;
+    
 };
 
 class ZikrManaging {
@@ -27,7 +27,7 @@ public:
     void displayAllGradually() const ; //Show the zikr in order
     void reset(); // for restart the loop 
     const vector<Zekr>& getList() const { return list; }
-    
+    bool AddZekrToFile(const string& newZekr); // to make user able to add new zikr 
 
 };
 

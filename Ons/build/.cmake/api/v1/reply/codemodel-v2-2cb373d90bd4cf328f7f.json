@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "azkar::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-azkar-Debug-8a68e43b7deddc3ff642.json",
-					"name" : "azkar",
+					"id" : "Ons::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Ons-Debug-0dfd63fc0aaa44660108.json",
+					"name" : "Ons",
 					"projectIndex" : 0
 				}
 			]
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons/build",
-		"source" : "C:/Users/Zakaria Ahmed/Downloads/c++ Library/-C-plus-proramming-jurney/Ons"
+		"build" : "D:/Workshop tasks/-C-plus-proramming-jurney/Ons/build",
+		"source" : "D:/Workshop tasks/-C-plus-proramming-jurney/Ons"
 	},
 	"version" : 
 	{
