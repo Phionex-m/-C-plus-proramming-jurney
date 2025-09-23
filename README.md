@@ -1,18 +1,7 @@
-# C++ Programming Journey
-
-A comprehensive learning path for C++ programming from basics to advanced concepts.
-
-## Learning Path:
-1. Structured Programming
-2. Object-Oriented Programming (OOP)
-3. Advanced C++ Topics
-4. Practical Projects
-
-## Repository Structure:
-- Main branch: Overview and basic introduction
-- structure-programming branch: Basic syntax, control flow, functions
-- oop-programming branch: Object-oriented concepts
-- advanced-topics branch: Templates, STL, memory management
-- projects branch: Practical projects from mini to final project
-
-
+###### Some advanced tobics about C++ such as :
+Date and time ,
+File handling , 
+Some advanced functions ,
+Guards and pragma to deal with projects , 
+Static and shared library and
+Templates 
