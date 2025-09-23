@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "Ons",
+					"name" : "AzkarApp",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "Ons::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Ons-Debug-0dfd63fc0aaa44660108.json",
-					"name" : "Ons",
+					"id" : "AzkarApp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-AzkarApp-Debug-b0a19f7a793c3e40151c.json",
+					"name" : "AzkarApp",
 					"projectIndex" : 0
 				}
 			]

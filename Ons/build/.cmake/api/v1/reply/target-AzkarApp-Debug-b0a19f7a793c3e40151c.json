@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Ons.exe"
+			"path" : "AzkarApp.exe"
 		},
 		{
-			"path" : "Ons.pdb"
+			"path" : "AzkarApp.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -13,7 +13,8 @@
 	{
 		"commands" : 
 		[
-			"add_executable"
+			"add_executable",
+			"target_link_libraries"
 		],
 		"files" : 
 		[
@@ -27,7 +28,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 8,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 28,
 				"parent" : 0
 			}
 		]
@@ -57,7 +64,7 @@
 			]
 		}
 	],
-	"id" : "Ons::@6890427a1f51a3e7e1df",
+	"id" : "AzkarApp::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -67,14 +74,43 @@
 				"role" : "flags"
 			},
 			{
+				"fragment" : "-mwindows",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lkernel32",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-luser32",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lgdi32",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lwinmm",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lshell32",
+				"role" : "libraries"
+			},
+			{
 				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
-	"name" : "Ons",
-	"nameOnDisk" : "Ons.exe",
+	"name" : "AzkarApp",
+	"nameOnDisk" : "AzkarApp.exe",
 	"paths" : 
 	{
 		"build" : ".",
