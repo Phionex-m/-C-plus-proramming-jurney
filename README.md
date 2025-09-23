@@ -9,7 +9,7 @@ A comprehensive learning path for C++ programming from basics to advanced concep
 4. Practical Projects
 
 ## Repository Structure:
-- Main branch: Overview and basic introduction
+- Main branch: Overview 
 - structure-programming branch: Basic syntax, control flow, functions
 - oop-programming branch: Object-oriented concepts
 - advanced-topics branch: Templates, STL, memory management
