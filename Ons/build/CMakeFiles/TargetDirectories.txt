@@ -1,3 +1,0 @@
-D:/Workshop tasks/-C-plus-proramming-jurney/Ons/build/CMakeFiles/Ons.dir
-D:/Workshop tasks/-C-plus-proramming-jurney/Ons/build/CMakeFiles/edit_cache.dir
-D:/Workshop tasks/-C-plus-proramming-jurney/Ons/build/CMakeFiles/rebuild_cache.dir
