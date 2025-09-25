@@ -10,20 +10,6 @@
 using namespace std;
 
 
- // ظهرت عندى مشكلة ان لما باجى اضيف ذكر بيعمل جنبه null
- // فعملت دى عشان احل مشكلة ال Encoding للعربى
- 
- string ConvertToUTF8(const string& str) {
-    int size_needed = MultiByteToWideChar(CP_ACP, 0, str.c_str(), (int)str.size(), NULL, 0);
-    wstring wstr(size_needed, 0);
-    MultiByteToWideChar(CP_ACP, 0, str.c_str(), (int)str.size(), &wstr[0], size_needed);
-    
-    size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.size(), NULL, 0, NULL, NULL);
-    string utf8_str(size_needed, 0);
-    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.size(), &utf8_str[0], size_needed, NULL, NULL);
-    
-    return utf8_str;
-}
 
 ZikrManaging::ZikrManaging() : CurrentCount(0) {}
 
