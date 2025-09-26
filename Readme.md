@@ -15,4 +15,7 @@ A comprehensive learning path for C++ programming from basics to advanced concep
 - advanced-topics branch: Templates, STL, memory management
 - projects branch: Practical projects from mini to final project
 
+## The link of the final simple project :
+  https://github.com/Phionex-m/-C-plus-proramming-jurney/commit/1d8e7f9b3870b3101a419e9a5cdd2f9443ff8ed1
+
 
