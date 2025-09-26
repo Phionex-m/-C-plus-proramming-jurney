@@ -4,7 +4,7 @@
 #include "zikr.h"
 #include <thread>
 #include <chrono>
-#include <shellapi.h>
+#include <mmsystem.h>
 
 
 using namespace std;
@@ -118,8 +118,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 
-
-   ShellExecuteA(NULL, "open", "audio.wav", NULL, NULL, SW_HIDE);
+  PlaySoundW(L"audio.wav", NULL, SND_FILENAME | SND_ASYNC);
 
 
 
