@@ -51,6 +51,7 @@ build cmake_object_order_depends_target_Ons: phony || .
 
 build CMakeFiles/Ons.dir/main.cpp.obj: CXX_COMPILER__Ons_unscanned_Debug D$:/Workshop$ tasks/-C-plus-proramming-jurney/Ons/main.cpp || cmake_object_order_depends_target_Ons
   CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
   DEP_FILE = CMakeFiles\Ons.dir\main.cpp.obj.d
   FLAGS = -g -std=gnu++11
   OBJECT_DIR = CMakeFiles\Ons.dir
@@ -60,8 +61,18 @@ build CMakeFiles/Ons.dir/main.cpp.obj: CXX_COMPILER__Ons_unscanned_Debug D$:/Wor
 
 build CMakeFiles/Ons.dir/zikr.cpp.obj: CXX_COMPILER__Ons_unscanned_Debug D$:/Workshop$ tasks/-C-plus-proramming-jurney/Ons/zikr.cpp || cmake_object_order_depends_target_Ons
   CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
   DEP_FILE = CMakeFiles\Ons.dir\zikr.cpp.obj.d
   FLAGS = -g -std=gnu++11
+  OBJECT_DIR = CMakeFiles\Ons.dir
+  OBJECT_FILE_DIR = CMakeFiles\Ons.dir
+  TARGET_COMPILE_PDB = CMakeFiles\Ons.dir\
+  TARGET_PDB = Ons.pdb
+
+build CMakeFiles/Ons.dir/resource.rc.obj: RC_COMPILER__Ons_unscanned_Debug D$:/Workshop$ tasks/-C-plus-proramming-jurney/Ons/resource.rc || cmake_object_order_depends_target_Ons
+  CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
+  DEP_FILE = CMakeFiles\Ons.dir\resource.rc.obj.d
   OBJECT_DIR = CMakeFiles\Ons.dir
   OBJECT_FILE_DIR = CMakeFiles\Ons.dir
   TARGET_COMPILE_PDB = CMakeFiles\Ons.dir\
@@ -75,7 +86,7 @@ build CMakeFiles/Ons.dir/zikr.cpp.obj: CXX_COMPILER__Ons_unscanned_Debug D$:/Wor
 #############################################
 # Link the executable Ons.exe
 
-build Ons.exe: CXX_EXECUTABLE_LINKER__Ons_Debug CMakeFiles/Ons.dir/main.cpp.obj CMakeFiles/Ons.dir/zikr.cpp.obj
+build Ons.exe: CXX_EXECUTABLE_LINKER__Ons_Debug CMakeFiles/Ons.dir/main.cpp.obj CMakeFiles/Ons.dir/zikr.cpp.obj CMakeFiles/Ons.dir/resource.rc.obj
   CONFIG = Debug
   FLAGS = -g
   LINK_FLAGS = -mwindows

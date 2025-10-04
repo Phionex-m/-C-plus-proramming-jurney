@@ -1,3 +1,5 @@
+#define UNICODE
+#define _UNICODE
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -5,7 +7,7 @@
 #include <thread>
 #include <chrono>
 #include <mmsystem.h>
-
+#include "resource.h"
 
 using namespace std;
 
@@ -20,6 +22,7 @@ int g_currentZekrIndex = 0;
 bool g_isRunningInTray = false;
 thread g_trayThread;
 bool g_trayIconAdded = false;
+HINSTANCE g_hInstance;
 
 // Convert string to wstring
 wstring StringToWString(const string &str)
@@ -40,7 +43,7 @@ string WStringToString(const wstring &wstr)
 }
 
 // Function to show tray notification
-void ShowTrayNotification(const wstring &message)
+void ShowTrayNotification(HINSTANCE hInstance, const wstring &message)
 {
     NOTIFYICONDATAW nid = {};
     nid.cbSize = sizeof(NOTIFYICONDATAW);
@@ -58,7 +61,7 @@ void ShowTrayNotification(const wstring &message)
     if (!g_trayIconAdded)
     {
         nid.uFlags |= NIF_ICON;
-        nid.hIcon = LoadIcon(NULL, IDI_INFORMATION);
+        nid.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYICON)); // استخدام الأيقونة المخصصة
         Shell_NotifyIconW(NIM_ADD, &nid);
         g_trayIconAdded = true;
     }
@@ -86,7 +89,7 @@ void RemoveTrayIcon()
 void RunInTrayMode()
 {
     // Show initial notification
-    MessageBoxW(g_hwnd, L"بدأ تشغيل العائمة. ستظهر الإشعارات كل دقيقة.", L"أذكار المسلم", MB_OK | MB_ICONINFORMATION);
+    ShowTrayNotification(g_hInstance, L"بدأ تشغيل العائمة. ستظهر الإشعارات كل دقيقة.");
 
     while (g_isRunningInTray)
     {
@@ -94,10 +97,7 @@ void RunInTrayMode()
         if (!azkarList.empty())
         {
             wstring wtext = StringToWString(azkarList[g_currentZekrIndex].text);
-
-            // Use MessageBox for notifications instead of tray notifications
-            MessageBoxW(g_hwnd, wtext.c_str(), L"ذكر", MB_OK | MB_ICONINFORMATION);
-
+            ShowTrayNotification(g_hInstance, wtext);
             g_currentZekrIndex = (g_currentZekrIndex + 1) % azkarList.size();
         }
 
@@ -113,17 +113,161 @@ void RunInTrayMode()
 }
 
 // Window procedure
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+    case WM_CREATE:
+    {
+        HICON hIcon = (HICON)LoadImageW(g_hInstance, MAKEINTRESOURCEW(IDI_MYICON), IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
+        if (hIcon) {
+            SendMessageW(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+            SendMessageW(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+        break;
+    }
+    case WM_COMMAND:
+    {
+        int wmId = LOWORD(wParam);
+        // Handle button clicks
+        if (wmId == 1)
+        { // Next button
+            const vector<Zekr> &azkarList = zikrManager.getList();
+            if (!azkarList.empty())
+            {
+                g_currentZekrIndex = (g_currentZekrIndex + 1) % azkarList.size();
+                wstring wtext = StringToWString(azkarList[g_currentZekrIndex].text);
+                SetWindowTextW(g_hTextDisplay, wtext.c_str());
+            }
+        }
+        else if (wmId == 2)
+        { // Reset button
+            const vector<Zekr> &azkarList = zikrManager.getList();
+            if (!azkarList.empty())
+            {
+                g_currentZekrIndex = 0;
+                wstring wtext = StringToWString(azkarList[0].text);
+                SetWindowTextW(g_hTextDisplay, wtext.c_str());
+            }
+        }
+        else if (wmId == 3)
+        { // Add new zekr button
+            wchar_t buffer[256];
+            GetWindowTextW(g_hAddZekrEdit, buffer, 256);
+            string newZekr = WStringToString(buffer);
+
+            if (newZekr.empty())
+            {
+                MessageBoxW(hwnd, L"الرجاء إدخال ذكر", L"تحذير", MB_OK | MB_ICONWARNING);
+                return 0;
+            }
+
+            if (zikrManager.AddZekrToFile(newZekr))
+            {
+                MessageBoxW(hwnd, L"تم إضافة الذكر بنجاح", L"نجاح", MB_OK | MB_ICONINFORMATION);
+                SetWindowTextW(g_hAddZekrEdit, L"");
+                if (!zikrManager.getList().empty())
+                {
+                    wstring wtext = StringToWString(zikrManager.getList().back().text);
+                    SetWindowTextW(g_hTextDisplay, wtext.c_str());
+                    g_currentZekrIndex = zikrManager.getList().size() - 1;
+                }
+            }
+            else
+            {
+                MessageBoxW(hwnd, L"فشل في إضافة الذكر", L"خطأ", MB_OK | MB_ICONERROR);
+            }
+        }
+        else if (wmId == 4)
+        { // Reload azkar
+            if (zikrManager.ImportZekrFromTxt())
+            {
+                MessageBoxW(hwnd, L"تم إعادة تحميل الأذكار بنجاح", L"نجاح", MB_OK | MB_ICONINFORMATION);
+                if (!zikrManager.getList().empty())
+                {
+                    g_currentZekrIndex = 0;
+                    wstring wtext = StringToWString(zikrManager.getList()[0].text);
+                    SetWindowTextW(g_hTextDisplay, wtext.c_str());
+                }
+            }
+            else
+            {
+                MessageBoxW(hwnd, L"فشل في تحميل الأذكار", L"خطأ", MB_OK | MB_ICONERROR);
+            }
+        }
+        else if (wmId == 5)
+        { // Exit
+            g_isRunningInTray = false;
+            if (g_trayThread.joinable())
+            {
+                g_trayThread.join();
+            }
+            RemoveTrayIcon();
+            PostQuitMessage(0);
+        }
+        else if (wmId == 6)
+        { // Show all azkar
+            string allAzkar;
+            const vector<Zekr> &azkarList = zikrManager.getList();
+            for (const auto &zekr : azkarList)
+            {
+                allAzkar += zekr.text + "\n";
+            }
+            wstring wallAzkar = StringToWString(allAzkar);
+            MessageBoxW(hwnd, wallAzkar.c_str(), L"كل الأذكار", MB_OK | MB_ICONINFORMATION);
+        }
+        else if (wmId == 7)
+        { // Add new zekr from menu
+            SetFocus(g_hAddZekrEdit);
+        }
+        else if (wmId == 8 || wmId == 9)
+        { // Tray mode button or menu item
+            if (!g_isRunningInTray)
+            {
+                g_isRunningInTray = true;
+                g_trayThread = thread(RunInTrayMode);
+                SetWindowTextW(g_hTrayButton, L"إيقاف العائمة");
+            }
+            else
+            {
+                g_isRunningInTray = false;
+                if (g_trayThread.joinable())
+                {
+                    g_trayThread.join();
+                }
+                MessageBoxW(hwnd, L"تم إيقاف وضع العائمة.", L"إيقاف العائمة", MB_OK | MB_ICONINFORMATION);
+                SetWindowTextW(g_hTrayButton, L"تشغيل كعائمة");
+            }
+        }
+    }
+    break;
+    case WM_DESTROY:
+        g_isRunningInTray = false;
+        if (g_trayThread.joinable())
+        {
+            g_trayThread.join();
+        }
+        RemoveTrayIcon();
+        PostQuitMessage(0);
+        return 0;
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hwnd, &ps);
+        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+        EndPaint(hwnd, &ps);
+    }
+        return 0;
+    }
+    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    g_hInstance = hInstance;
 
-  PlaySoundW(L"audio.wav", NULL, SND_FILENAME | SND_ASYNC);
+    PlaySoundW(L"audio.wav", NULL, SND_FILENAME | SND_ASYNC);
 
-
-
-
-     
     // Load azkar
     if (!zikrManager.ImportZekrFromTxt())
     {
@@ -138,14 +282,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hInstance = hInstance;
     wc.lpszClassName = CLASS_NAME;
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-
+    wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYICON));
+    if (wc.hIcon == NULL) {
+        MessageBoxW(NULL, L"فشل تحميل الأيقونة الأساسية!", L"خطأ", MB_OK | MB_ICONERROR);
+    }
     RegisterClassW(&wc);
 
     // Create the window
     HWND hwnd = CreateWindowExW(
         0,
         CLASS_NAME,
-        L"أذكار المسلم",
+        L"أُنس",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 700, 550,
         NULL,
@@ -283,152 +430,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     return 0;
-}
-
-// Window procedure implementation
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
-    case WM_COMMAND:
-    {
-        int wmId = LOWORD(wParam);
-        // Handle button clicks
-        if (wmId == 1)
-        { // Next button
-            const vector<Zekr> &azkarList = zikrManager.getList();
-            if (!azkarList.empty())
-            {
-                g_currentZekrIndex = (g_currentZekrIndex + 1) % azkarList.size();
-                wstring wtext = StringToWString(azkarList[g_currentZekrIndex].text);
-                SetWindowTextW(g_hTextDisplay, wtext.c_str());
-            }
-        }
-        else if (wmId == 2)
-        { // Reset button
-            const vector<Zekr> &azkarList = zikrManager.getList();
-            if (!azkarList.empty())
-            {
-                g_currentZekrIndex = 0;
-                wstring wtext = StringToWString(azkarList[0].text);
-                SetWindowTextW(g_hTextDisplay, wtext.c_str());
-            }
-        }
-        else if (wmId == 3)
-        { // Add new zekr button
-            // Get text from edit box
-            wchar_t buffer[256];
-            GetWindowTextW(g_hAddZekrEdit, buffer, 256);
-            string newZekr = WStringToString(buffer);
-
-            // Check if input is empty
-            if (newZekr.empty())
-            {
-                MessageBoxW(hwnd, L"الرجاء إدخال ذكر", L"تحذير", MB_OK | MB_ICONWARNING);
-                return 0;
-            }
-
-            // Try to add the zikr
-            if (zikrManager.AddZekrToFile(newZekr))
-            {
-                MessageBoxW(hwnd, L"تم إضافة الذكر بنجاح", L"نجاح", MB_OK | MB_ICONINFORMATION);
-
-                // Clear the edit box
-                SetWindowTextW(g_hAddZekrEdit, L"");
-
-                // Update display to show the newly added zikr
-                if (!zikrManager.getList().empty())
-                {
-                    wstring wtext = StringToWString(zikrManager.getList().back().text);
-                    SetWindowTextW(g_hTextDisplay, wtext.c_str());
-                    g_currentZekrIndex = zikrManager.getList().size() - 1;
-                }
-            }
-            else
-            {
-                MessageBoxW(hwnd, L"فشل في إضافة الذكر", L"خطأ", MB_OK | MB_ICONERROR);
-            }
-        }
-        else if (wmId == 4)
-        { // Reload azkar
-            if (zikrManager.ImportZekrFromTxt())
-            {
-                MessageBoxW(hwnd, L"تم إعادة تحميل الأذكار بنجاح", L"نجاح", MB_OK | MB_ICONINFORMATION);
-                if (!zikrManager.getList().empty())
-                {
-                    g_currentZekrIndex = 0;
-                    wstring wtext = StringToWString(zikrManager.getList()[0].text);
-                    SetWindowTextW(g_hTextDisplay, wtext.c_str());
-                }
-            }
-            else
-            {
-                MessageBoxW(hwnd, L"فشل في تحميل الأذكار", L"خطأ", MB_OK | MB_ICONERROR);
-            }
-        }
-        else if (wmId == 5)
-        { // Exit
-            g_isRunningInTray = false;
-            if (g_trayThread.joinable())
-            {
-                g_trayThread.join();
-            }
-            RemoveTrayIcon();
-            PostQuitMessage(0);
-        }
-        else if (wmId == 6)
-        { // Show all azkar
-            string allAzkar;
-            const vector<Zekr> &azkarList = zikrManager.getList();
-            for (const auto &zekr : azkarList)
-            {
-                allAzkar += zekr.text + "\n";
-            }
-            wstring wallAzkar = StringToWString(allAzkar);
-            MessageBoxW(hwnd, wallAzkar.c_str(), L"كل الأذكار", MB_OK | MB_ICONINFORMATION);
-        }
-        else if (wmId == 7)
-        { // Add new zekr from menu
-            SetFocus(g_hAddZekrEdit);
-        }
-        else if (wmId == 8 || wmId == 9)
-        { // Tray mode button or menu item
-            if (!g_isRunningInTray)
-            {
-                g_isRunningInTray = true;
-                g_trayThread = thread(RunInTrayMode);
-                SetWindowTextW(g_hTrayButton, L"إيقاف العائمة");
-            }
-            else
-            {
-                g_isRunningInTray = false;
-                if (g_trayThread.joinable())
-                {
-                    g_trayThread.join();
-                }
-                MessageBoxW(hwnd, L"تم إيقاف وضع العائمة.", L"إيقاف العائمة", MB_OK | MB_ICONINFORMATION);
-                SetWindowTextW(g_hTrayButton, L"تشغيل كعائمة");
-            }
-        }
-    }
-    break;
-    case WM_DESTROY:
-        g_isRunningInTray = false;
-        if (g_trayThread.joinable())
-        {
-            g_trayThread.join();
-        }
-        RemoveTrayIcon();
-        PostQuitMessage(0);
-        return 0;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-        EndPaint(hwnd, &ps);
-    }
-        return 0;
-    }
-    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
